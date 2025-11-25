@@ -1,4 +1,4 @@
-import { Stack, Box } from '@mui/material';
+import { Stack } from '@mui/material';
 import InitialChat from '../../components/InitialChat/InitialChat';
 import ChatInput from '../../components/ChatInput/ChatInput';
 import ChattingCard from '../../components/ChattingCard/ChattingCard';
@@ -7,7 +7,6 @@ import { useEffect, useRef, useState, useContext } from 'react';
 import data from '../../aiData/sampleData.json';
 import { useOutletContext } from "react-router-dom";
 import Navbar from '../../components/Navbar/Navbar';
-import Sidebar from '../../components/Sidebar/Sidebar';
 import { ThemeContext } from '../../theme/ThemeContext';
 
 export default function Home() {
@@ -18,17 +17,16 @@ export default function Home() {
     const [selectedChatId, setSelectedChatId] = useState(null);
     const [scrollToBottom, setScrollToBottom] = useState(false);
 
-    const { chat, setChat, showMenu, setShowMenu } = useOutletContext(); 
+    const { chat, setChat } = useOutletContext(); 
     const { mode } = useContext(ThemeContext);
 
     // AI RESPONSE
     const generateResponse = (input) => {
-        const response = data.find(item => input.toLowerCase() === item.question.toLowerCase());
-        let answer = "Sorry, Did not understand your query!";
+        const response = data.find(
+            item => input.toLowerCase() === item.question.toLowerCase()
+        );
 
-        if (response !== undefined) {
-            answer = response.response;
-        }
+        const answer = response?.response || "Sorry, Did not understand your query!";
 
         setChat(prev => ([
             ...prev,
@@ -56,9 +54,11 @@ export default function Home() {
 
     return (
         <Stack
-            minHeight={'100vh'}
-            display={'flex'}
+            minHeight="100vh"
+            display="flex"
             sx={{
+                pt: 0,
+                mt: 0,
                 '@media (max-width:767px)': {
                     background: mode === 'light'
                         ? 'linear-gradient(#F9FAFA 60%, #EDE4FF)'
@@ -69,31 +69,25 @@ export default function Home() {
 
             <Navbar />
 
-            {/* SIDEBAR + MAIN CONTENT */}
-            <Stack direction="row" flex={1} overflow="hidden">
+            {/* MAIN AREA (Sidebar already in App.js) */}
+            <Stack 
+                direction="row"
+                flex={1}
+                overflow="hidden"
+                px={{ xs: 1, md: 3 }}
+                pt={{ xs: 1, md: 2 }}
+            >
 
-                {/* SIDEBAR */}
-                <Box
-                    sx={{
-                        width: { xs: showMenu ? '70%' : 0, md: '260px' },
-                        transition: '0.3s',
-                        overflow: 'hidden',
-                        borderRight: '1px solid #eee'
-                    }}
-                >
-                    <Sidebar setChat={setChat} closeMenu={() => setShowMenu(false)} />
-                </Box>
-
-                {/* MAIN CHAT AREA */}
+                {/* MAIN CHAT COLUMN */}
                 <Stack flex={1}>
 
-                    {/* INITIAL CHAT */}
+                    {/* INITIAL LANDING VIEW */}
                     {chat.length === 0 && (
                         <Stack
                             flex={1}
-                            justifyContent="center"
+                            justifyContent="flex-start"
                             alignItems="center"
-                            px={2}
+                            mt={4}
                         >
                             <InitialChat generateResponse={generateResponse} />
                         </Stack>
@@ -131,7 +125,7 @@ export default function Home() {
                         </Stack>
                     )}
 
-                    {/* CHAT INPUT */}
+                    {/* CHAT INPUT BOX */}
                     <ChatInput
                         generateResponse={generateResponse}
                         setScroll={setScrollToBottom}
