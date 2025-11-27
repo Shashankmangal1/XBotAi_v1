@@ -1,27 +1,31 @@
-import { useContext } from "react";
-import { ThemeContext } from "../../theme/ThemeContext";
-import { Typography, Box, Stack, Button, useMediaQuery } from '@mui/material';
-import icon from '../../assets/newchat.png';
-import { Link } from 'react-router-dom';
+import { useContext } from "react"
+import { ThemeContext } from "../../theme/ThemeContext"
+import { Typography, Box, Stack, Button, useMediaQuery } from '@mui/material'
+import icon from '../../assets/newchat.png'
+import { Link } from 'react-router-dom'
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import CloseIcon from '@mui/icons-material/Close';
 
 export default function Sidebar({ setChat, closeMenu }) {
 
-    const { mode } = useContext(ThemeContext);
-    const isMobile = useMediaQuery('(max-width:800px)');
+    const { mode, setMode } = useContext(ThemeContext)
+    const isMobile = useMediaQuery('(max-width:800px)')
+
+    const handleMode = () => {
+        setMode(prev => prev === 'light' ? 'dark' : 'light')
+    }
 
     return (
-        <Box>
+        <Box >
 
-            {/* Close button for mobile */}
+
             {isMobile && (
                 <Button
                     endIcon={<CloseIcon />}
                     sx={{
                         width: 1,
                         justifyContent: 'flex-end',
-                        color: mode === 'light' ? 'primary.dark' : 'text.primary'
+                        color: mode === 'light' ? 'primary.dark' :'text.primary'
                     }}
                     onClick={closeMenu}
                 >
@@ -29,17 +33,15 @@ export default function Sidebar({ setChat, closeMenu }) {
                 </Button>
             )}
 
-            {/* New Chat */}
             <Link to={'/'} style={{ textDecoration: 'none' }}>
                 <Stack
                     onClick={() => {
-                        setChat([]);
-                        if (closeMenu) closeMenu();
+                        setChat([])
+                        closeMenu()
                     }}
                     sx={{
                         bgcolor: 'primary.main',
-                        cursor: 'pointer',
-                        '&:hover': {
+                        '&:hover ': {
                             bgcolor: 'primary.bg'
                         }
                     }}
@@ -48,7 +50,7 @@ export default function Sidebar({ setChat, closeMenu }) {
                     alignItems={'center'}
                     justifyContent={'space-between'}
                     py={2}
-                    px={{ xs: 2, md: 3 }}
+                    px={{xs:2, md:3}}
                 >
                     <Stack direction={'row'} gap={1} alignItems={'center'}>
                         <Box
@@ -62,7 +64,7 @@ export default function Sidebar({ setChat, closeMenu }) {
                         />
                         <Typography
                             variant={'heading'}
-                            fontSize={{ xs: 16, md: 20 }}
+                            fontSize={{xs:16, md:20}}
                             color={'text.primary'}
                         >
                             New Chat
@@ -74,15 +76,17 @@ export default function Sidebar({ setChat, closeMenu }) {
                 </Stack>
             </Link>
 
-            {/* Past Conversations */}
-            <Box p={{ xs: 2, md: 3 }}>
-                <Link to={'/history'} style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" sx={{ width: 1 }} onClick={closeMenu}>
+            <Box p={{xs:2, md:3}}>
+                <Link to={'/history'}>
+                    <Button
+                        variant="contained" sx={{ width: 1 }}
+                        onClick={closeMenu}
+                    >
                         Past Conversations
                     </Button>
                 </Link>
             </Box>
 
         </Box>
-    );
+    )
 }

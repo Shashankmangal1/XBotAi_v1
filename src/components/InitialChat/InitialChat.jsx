@@ -1,6 +1,6 @@
-import { Box, Typography, Stack, Grid } from '@mui/material';
-import icon from '../../assets/bot.png';
-import Card from './Card';
+import { Box, Typography, Stack, Grid } from '@mui/material'
+import icon from '../../assets/bot.png'
+import Card from './Card'
 
 export default function InitialChat({ generateResponse }) {
 
@@ -21,53 +21,35 @@ export default function InitialChat({ generateResponse }) {
             heading: 'Hi, how are you',
             subtext: 'Get immediate AI generated response'
         },
-    ];
+    ]
+
 
     return (
-        <Stack
-            flex={1}
-            justifyContent="flex-start"
-            alignItems="center"
-            px={{ xs: 2, md: 3 }}
-            py={4}
-            width="100%"
-            maxWidth="900px"
-            mx="auto"
-        >
-
-            {/* Heading + Icon */}
-            <Stack alignItems="center" spacing={2} mt={{ xs: 2, md: 6 }} mb={{ xs: 3, md: 4 }}>
-                <Typography
-                    variant="h2"
-                    textAlign="center"
-                    fontSize={{ xs: '1.8rem', md: '2.5rem' }}
-                    fontWeight={700}
-                >
+        <Stack height={1} justifyContent={'flex-end'} p={{ xs: 2, md: 3 }}>
+            <Stack
+                alignItems={'center'}
+                spacing={2}
+                my={5}
+            >
+                <Typography variant='h2'>
                     How Can I Help You Today?
                 </Typography>
-
                 <Box
-                    component="img"
+                    component={'img'}
                     src={icon}
-                    height={{ xs: 50, md: 70 }}
-                    width={{ xs: 50, md: 70 }}
+                    height={{ xs: 42, md: 70 }}
+                    width={{ xs: 42, md: 70 }}
                     boxShadow={4}
-                    borderRadius="50%"
+                    borderRadius={'50%'}
                 />
             </Stack>
-
-            {/* Suggestion Cards Grid */}
-            <Grid container spacing={{ xs: 1.5, md: 3 }} width="100%">
+            <Grid container spacing={{ xs: 1, md: 3 }}>
                 {initialData.map(item => (
                     <Grid item key={item.heading} xs={12} md={6}>
-                        <Card
-                            heading={item.heading}
-                            subtext={item.subtext}
-                            handleClick={generateResponse}
-                        />
+                        <Card heading={item.heading} subtext={item.subtext} handleClick={generateResponse} />
                     </Grid>
                 ))}
             </Grid>
         </Stack>
-    );
+    )
 }

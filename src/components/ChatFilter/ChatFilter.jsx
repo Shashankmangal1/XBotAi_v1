@@ -32,7 +32,7 @@ export default function ChatFilter({ allChats, filterChats }) {
             filterChats(filtered)
         }
 
-    }, [option, allChats, filterChats])
+    }, [option])
 
     return (
         <Box

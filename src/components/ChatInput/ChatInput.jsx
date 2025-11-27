@@ -1,8 +1,9 @@
-import { TextField, Box, Button, Stack, Snackbar } from '@mui/material'
+import { TextField, Box, Button, Stack, Snackbar, useMediaQuery } from '@mui/material'
 import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function ChatInput({ generateResponse, setScroll, chat, clearChat }) {
+
     const [input, setInput] = useState('')
     const inputRef = useRef(null)
     const [showSnackbar, setShowSnackbar] = useState(false)
@@ -15,12 +16,15 @@ export default function ChatInput({ generateResponse, setScroll, chat, clearChat
     }
 
     const handleSave = () => {
+
         const chat_history = JSON.parse(localStorage.getItem('chat')) || []
+
         const date = new Date()
 
         localStorage.setItem('chat', JSON.stringify([{ chat: chat, datetime: date }, ...chat_history]))
 
         clearChat()
+
         setShowSnackbar(true)
     }
 
@@ -30,10 +34,13 @@ export default function ChatInput({ generateResponse, setScroll, chat, clearChat
 
     return (
         <Box flexShrink={0} px={{ xs: .5, md: 3 }} pb={{ xs: 1, md: 3 }}>
-            <Box component="form" onSubmit={handleSubmit}>
-                <Stack direction="row" spacing={{ xs: .5, md: 2 }}>
+            <Box component={'form'} onSubmit={handleSubmit}>
+                <Stack
+                    direction={'row'}
+                    spacing={{ xs: .5, md: 2 }}
+                >
                     <TextField
-                        placeholder="Message Bot AI..."
+                        placeholder='Message Bot AI...'
                         sx={{
                             flex: 1,
                             bgcolor: 'primary.light',
@@ -41,7 +48,8 @@ export default function ChatInput({ generateResponse, setScroll, chat, clearChat
                             '& input': {
                                 fontSize: { xs: 12, md: 16 },
                                 paddingLeft: { xs: 1, md: 2 },
-                                paddingRight: { xs: 1, md: 2 }
+                                paddingRight: { xs: 1, md: 2 },
+
                             }
                         }}
                         value={input}
@@ -50,8 +58,8 @@ export default function ChatInput({ generateResponse, setScroll, chat, clearChat
                         inputRef={inputRef}
                     />
                     <Button
-                        variant="contained"
-                        type="submit"
+                        variant='contained'
+                        type='submit'
                         sx={{
                             fontSize: { xs: 12, md: 16 },
                             '@media (max-width:767px)': {
@@ -64,9 +72,9 @@ export default function ChatInput({ generateResponse, setScroll, chat, clearChat
                         Ask
                     </Button>
                     <Button
-                        variant="outlined"
+                        variant='outlined'
                         onClick={handleSave}
-                        disabled={chat.length === 0}
+                        disabled={!chat.length > 0}
                         sx={{
                             fontSize: { xs: 12, md: 16 },
                             '@media (max-width:767px)': {
@@ -83,12 +91,12 @@ export default function ChatInput({ generateResponse, setScroll, chat, clearChat
 
             <Snackbar
                 open={showSnackbar}
-                message="Chat saved."
+                message={'Chat saved.'}
                 onClose={() => setShowSnackbar(false)}
                 autoHideDuration={5000}
                 action={
                     <Link to="/history">
-                        <Button size="small">See past conversations</Button>
+                        <Button size='small'>See past conversations</Button>
                     </Link>
                 }
             />
