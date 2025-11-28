@@ -1,5 +1,3 @@
-import { BorderColor } from "@mui/icons-material";
-
 export const getThemePallete = (mode) => ({
     palette: {
         mode,
@@ -34,13 +32,14 @@ export const getThemePallete = (mode) => ({
             }
         )
     },
+
     typography: {
         body1: {
             fontFamily: 'Open Sans, sans-serif'
         },
         h1: {
             fontFamily: 'Ubuntu, sans-serif',
-            color: mode == 'light' ? '#9785BA' : '#D7C7F4',
+            color: mode === 'light' ? '#9785BA' : '#D7C7F4', // ✅ fixed eqeqeq
             fontSize: 28,
             fontWeight: 700,
         },
@@ -57,6 +56,7 @@ export const getThemePallete = (mode) => ({
             fontFamily: 'Ubuntu, sans-serif',
         }
     },
+
     components: {
         MuiButton: {
             defaultProps: {
@@ -83,6 +83,7 @@ export const getThemePallete = (mode) => ({
             }
         }
     },
+
     breakpoints: {
         values: {
             xs: 0,
@@ -92,4 +93,4 @@ export const getThemePallete = (mode) => ({
             xl: 1536,
         },
     },
-})
+});

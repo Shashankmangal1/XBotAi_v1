@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Stack } from '@mui/material';
 import InitialChat from '../../components/InitialChat/InitialChat';
 import ChatInput from '../../components/ChatInput/ChatInput';
 import ChattingCard from '../../components/ChattingCard/ChattingCard';
@@ -23,11 +23,11 @@ export default function Home() {
     // GENERATING AI RESPONSE
     const generateResponse = (input) => {
 
-        const response = data.find(item => input.toLowerCase() == item.question.toLowerCase())
+        const response = data.find(item => input.toLowerCase() === item.question.toLowerCase())
 
         let answer = "Sorry, Did not understand your query!"
 
-        if (response != undefined) {
+        if (response !== undefined) {
             answer = response.response
         }
 
@@ -61,14 +61,14 @@ export default function Home() {
             justifyContent={'space-between'}
             sx={{
                 '@media (max-width:767px)': {
-                    background: mode == 'light' ? 'linear-gradient(#F9FAFA 60%, #EDE4FF)' : ''
+                    background: mode === 'light' ? 'linear-gradient(#F9FAFA 60%, #EDE4FF)' : ''
                 }
             }}
         >
 
             <Navbar />
 
-            {chat.length == 0 && <InitialChat generateResponse={generateResponse} />}
+            {chat.length === 0 && <InitialChat generateResponse={generateResponse} />}
 
             {chat.length > 0 && (
                 <Stack

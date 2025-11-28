@@ -1,53 +1,46 @@
-import { Box, Select, MenuItem, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { Box, Select, MenuItem, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 export default function ChatFilter({ allChats, filterChats }) {
 
-    const [option, setOption] = useState('All Ratings')
+    const [option, setOption] = useState('All Ratings');
 
     const handleChange = (e) => {
-        setOption(e.target.value)
-    }
+        setOption(e.target.value);
+    };
 
     // FILTER CHATS
     useEffect(() => {
-
         if (option === 'All Ratings') {
-            filterChats(allChats)
-        }
-        else {
+            filterChats(allChats);
+        } else {
             const filtered = allChats.filter(item => {
-
-                let found = false
+                let found = false;
 
                 item.chat.forEach(ch => {
                     if (ch.rating === option) {
-                        found = true
+                        found = true;
                     }
-                })
+                });
 
-                return found
-            })
+                return found;
+            });
 
-            filterChats(filtered)
+            filterChats(filtered);
         }
-
-    }, [option])
+    }, [option, allChats, filterChats]); // ✅ FIXED: added missing dependencies
 
     return (
-        <Box
-            mb={3}
-        >
+        <Box mb={3}>
             <Typography fontSize={12} mb={0.5}>
                 Filter by rating
             </Typography>
+
             <Select
                 value={option}
                 onChange={handleChange}
                 size='small'
-                sx={{
-                    minWidth: { xs: 1, md: 160 },
-                }}
+                sx={{ minWidth: { xs: 1, md: 160 } }}
             >
                 <MenuItem value='All Ratings'>All Ratings</MenuItem>
                 <MenuItem value={1}>1 Star</MenuItem>
@@ -57,5 +50,5 @@ export default function ChatFilter({ allChats, filterChats }) {
                 <MenuItem value={5}>5 Stars</MenuItem>
             </Select>
         </Box>
-    )
+    );
 }

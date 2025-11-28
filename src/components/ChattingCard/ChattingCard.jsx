@@ -1,34 +1,30 @@
-import { Box, Stack, Typography, IconButton, Rating } from '@mui/material'
-import ai from '../../assets/bot.png'
-import human from '../../assets/person.png'
+import { Box, Stack, Typography, IconButton, Rating } from '@mui/material';
+import ai from '../../assets/bot.png';
+import human from '../../assets/person.png';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt'; 
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 
 export default function ChattingCard({ details, showFeedbackModal, updateChat, setSelectedChatId, readOnly = false }) {
 
-    const [isRating, setIsRating] = useState(false)
-    const [rating, setRating] = useState(0)
+    const [isRating, setIsRating] = useState(false);
+    const [rating, setRating] = useState(0);
 
     useEffect(() => {
-
         if (isRating) {
-            updateChat(prev => (
+            updateChat(prev =>
                 prev.map(item => {
                     if (item.id === details.id) {
-                        return { ...item, rating: rating || 0 }
-                    }
-                    else {
-                        return { ...item }
+                        return { ...item, rating: rating || 0 };
+                    } else {
+                        return { ...item };
                     }
                 })
-            ))
+            );
         }
-
-    }, [rating])
+    }, [rating, isRating, details.id, updateChat]);
 
     return (
         <Stack
@@ -62,11 +58,11 @@ export default function ChattingCard({ details, showFeedbackModal, updateChat, s
                 >
                     {details.type === "AI" ? 'Soul AI' : 'You'}
                 </Typography>
-                <Typography
-                    fontSize={{ xs: 12, md: 16 }}
-                >
+
+                <Typography fontSize={{ xs: 12, md: 16 }}>
                     {details.text}
                 </Typography>
+
                 <Stack
                     direction={'row'}
                     gap={2}
@@ -94,18 +90,18 @@ export default function ChattingCard({ details, showFeedbackModal, updateChat, s
                                 {!isRating && <ThumbUpOffAltIcon fontSize='inherit' />}
                                 {isRating && <ThumbUpAltIcon fontSize='inherit' />}
                             </IconButton>
+
                             <IconButton
                                 size='small'
                                 onClick={() => {
-                                    setSelectedChatId(details.id)
-                                    showFeedbackModal()
+                                    setSelectedChatId(details.id);
+                                    showFeedbackModal();
                                 }}
                             >
-                                <ThumbDownOffAltIcon fontSize='inherit' />
+                                <ThumbDownOffAltIcon fontSize='inherit' /> {/* ✅ FIXED */}
                             </IconButton>
                         </Stack>
                     )}
-
                 </Stack>
 
                 {((isRating || details.rating > 0) && details.type === "AI") && (
@@ -115,27 +111,23 @@ export default function ChattingCard({ details, showFeedbackModal, updateChat, s
                             fontSize={{ xs: 10, md: 12 }}
                             mb={.5}
                         >
-                            {readOnly ? 'Rating:' : 'Rate this reponse:'}
+                            {readOnly ? 'Rating:' : 'Rate this response:'}
                         </Typography>
+
                         <Rating
                             name="simple-controlled"
                             value={details.rating > 0 ? details.rating : rating}
                             onChange={(event, newValue) => {
-                                setRating(newValue)
+                                setRating(newValue);
                             }}
-                            sx={{
-                                width: 'auto'
-                            }}
+                            sx={{ width: 'auto' }}
                             readOnly={readOnly}
                         />
                     </Box>
                 )}
 
                 {details.feedback && (
-                    <Typography
-                        pt={1}
-                        fontSize={{ xs: 10, md: 16 }}
-                    >
+                    <Typography pt={1} fontSize={{ xs: 10, md: 16 }}>
                         <Box component={'span'} fontWeight={600}>
                             Feedback:
                         </Box>
@@ -144,8 +136,7 @@ export default function ChattingCard({ details, showFeedbackModal, updateChat, s
                         </Box>
                     </Typography>
                 )}
-
             </Box>
         </Stack>
-    )
+    );
 }
